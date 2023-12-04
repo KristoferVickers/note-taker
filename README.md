@@ -10,7 +10,7 @@ https://github.com/KristoferVickers/note-taker
 
 ## Description
 
-
+This Note Taker is a fast, simple and clean web applications that lets users write, save and delete notes on their own. Made by Express JS. 
 
 
 ## Acceptance Criteria
