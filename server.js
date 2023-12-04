@@ -1,7 +1,7 @@
 const express = require("express");
 const fs = require("fs");
 const path = require("path");
-const uniqid = require("uniqid");
+
 
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -11,15 +11,15 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static("Develop/public"));
 
 app.get("/", (req, res) =>
-  res.sendFile(path.join(__dirname, "Develop/public/index.html"))
+  res.sendFile(path.join(__dirname, "Develop/index.html"))
 );
 
 app.get("/notes", (req, res) =>
-  res.sendFile(path.join(__dirname, "Develop/public/notes.html"))
+  res.sendFile(path.join(__dirname, "Develop/notes.html"))
 );
 
 app.get("/api/notes", function (req, res) {
-    fs.readFile("Develop/db/db.json", "utf8", (err, data) => {
+    fs.readFile("db/db.json", "utf8", (err, data) => {
       var jsonData = JSON.parse(data);
       console.log(jsonData);
       res.json(jsonData);
@@ -52,7 +52,7 @@ app.get("/api/notes", function (req, res) {
         id: uniqid(),
       };
   
-      readThenAppendToJson(newNote, "Develop/db/db.json");
+      readThenAppendToJson(newNote, "db/db.json");
 
       const response = {
         status: "success",
@@ -68,13 +68,13 @@ app.get("/api/notes", function (req, res) {
   app.delete("/api/notes/:id", (req, res) => {
     let id = req.params.id;
     let parsedData;
-    fs.readFile("Develop/db/db.json", "utf8", (err, data) => {
+    fs.readFile("db/db.json", "utf8", (err, data) => {
       if (err) {
         console.error(err);
       } else {
         parsedData = JSON.parse(data);
         const filterData = parsedData.filter((note) => note.id !== id);
-        writeNewNoteToJson("Develop/db/db.json", filterData);
+        writeNewNoteToJson("db/db.json", filterData);
       }
     });
     res.send(`Deleted note with ${req.params.id}`);
